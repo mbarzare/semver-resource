@@ -22,6 +22,13 @@ func main() {
 		fatal("constructing driver", err)
 	}
 
+  // MB - Checking if the file exists first and then creating if not.
+	if _, err := os.Stat(request.Source.File); os.IsNotExist(err) {
+  	os.Create(request.Source.File)
+		println("Dir did not exist. Creating the file directory at " + request.Source.File)
+  }
+	// End new
+
 	var cursor *semver.Version
 	if request.Version.Number != "" {
 		v, err := semver.Parse(request.Version.Number)
